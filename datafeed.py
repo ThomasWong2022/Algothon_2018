@@ -1,5 +1,3 @@
-# QT Capital Engineering 
-
 # help of arctic
 # https://github.com/manahl/arctic/blob/master/howtos/how_to_use_arctic.py
 # install mongodb windows

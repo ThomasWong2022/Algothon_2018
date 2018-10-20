@@ -6,11 +6,20 @@ import quandl
 
 def load_kaggle_price(csvfilepath):
     
-    pricedf=pd.read_csv(csvfilepath,chunksize=10000)
+    reader=pd.read_csv(csvfilepath,chunksize=10000000)
     arcticstore=algodb.arctichost('localhost')
     arcticstore.initialize_library('Kaggle')
-    arcticstore.set_quota('Kaggle',100*1024*1024*1024)
-    algodb.df2arctic(pricedf,arcticstore,'Kaggle','Price')
+    arcticstore.set_quota('Kaggle',1000*1024*1024*1024)
+    for pricedf in reader:
+        print(pricedf.dtypes)
+        pricedf['time'] =  pd.to_datetime(df['time'])
+        pricedf.set_index('time',inplace=True)
+        algodb.df2arctic(pricedf,arcticstore,'Kaggle','Price')
+        print(pricedf)
+        user_input=input('Pause: ')
+        if user_input=='N':
+            arcticstore['Kaggle'].delete('Price')
+            break
     return None 
 
 
@@ -48,13 +57,37 @@ def arctic2df(store,arcticcollectionname,ticker,start=None,end=None):
     df=pd.DataFrame()
     return df 
 
+def retuters_news(folderpath):
+
+    def _list_files(currentpath):
+        from os import listdir 
+        from os.path import isfile, join 
+        files = [join(currentpath, f) for f in listdir(currentpath) if isfile(join(currentpath, f))]
+        return files
+
+
+
 
 
 if __name__ == '__main__':
-    load_kaggle_price()
+    #load_kaggle_price()
     #load_fundamental('D:\Algothon_2018\Algothon_2018\Raw_data\SHARADAR_SF1.csv','SHARADAR_SF1','ticker','calendardate')
     #load_fundamental('D:\Algothon_2018\Algothon_2018\Raw_data\IFT_NSA.csv','IFA_NSA','ticker','date')
     #debug_database()
+
+    import pickle
+    with open('D:/Algothon_2018/Algothon_2018/kaggle_train_datasets/reuters/20070125.pkl', 'rb') as f:
+        data = pickle.load(f)
+        df=pd.DataFrame(data)
+        print(df)
+
+    load_kaggle_price('D:/Algothon_2018/Algothon_2018/kaggle_train_datasets/mystery_symbol_train/mystery_symbol_train.csv')
+
+
+
+
+
+        
 
 
 
