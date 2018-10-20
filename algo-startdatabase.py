@@ -6,7 +6,7 @@ import quandl
 
 def load_kaggle_price(csvfilepath):
     
-    pricedf=pd.read_csv(csvfilepath)
+    pricedf=pd.read_csv(csvfilepath,chunksize=10000)
     arcticstore=algodb.arctichost('localhost')
     algodb.df2arctic(pricedf,arcticstore,'Kaggle','Price')
     return None 
