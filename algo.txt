@@ -1,0 +1,5 @@
+news='D:/Algothon_2018/Algothon_2018/kaggle_train_datasets/reuters/20070125.pkl'
+with open(news, 'rb') as f:
+  data = pickle.load(f)
+  df=pd.DataFrame(data)
+  print(df)
