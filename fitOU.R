@@ -34,7 +34,7 @@ ou.sim <- function(a,b,c,N,startval){
   }
 
 output<-matrix(0, 5064, 2000)
-for (i in 1:2000){
+for (i in 1:600){
 walk<-sde.sim(0,1,2.172,101280,
         drift = expression(1-0.46302879*x),
         sigma = expression(0.01214844),sigma.x = expression(0))

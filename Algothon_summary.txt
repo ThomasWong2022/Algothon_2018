@@ -1,0 +1,31 @@
+## Inspiration
+
+We build various models using the news data and price data given. We have built a database to effectively manage our data. After aggregation of our data, we have tried various methods to forecast the pricing data, which includes PCA on a list of technical indicators, LSTM Neural Networks and fitting an OU process. We have found that fitting an OU process is the most effective way due to the acf structure of the price data.
+
+## What it does
+
+
+## How we built it
+
+We first attempted to apply NLP techniques to the news data, pipeline as follows:
+- Clean & pre-process (tokenize, stemming, removing stopwords etc) titles.
+- Use a pretrained word embedding such as GLoVe to obtain word embeddings.
+- Analyze sentence structure of the news titles. If relatively simple, e.g. no negations of negations, taking the mean of word vectors might be sufficient to obtain a good event embedding. Otherwise more complicated procedures would be required such as Skip-thoughts/Quick-thoughts.
+In the end we disregarded this method due to the following,
+- We don't know what industry our mysterious price ticker is related to, we cannot filter out the relevant news and it would add a large amount of noise to our data
+
+## Challenges we ran into
+
+We have build ways to summarise the news data and we have used the news count in each hour as an approximate of volume to build our technical indicators. However, looking at the correlation of the news count and technical indicators to the price in the heat map shows that the predictive power of these indicators to the security is relatively low. Therefore, we have to explore other ways to complete our time forecast. 
+
+The raw data is given at the millisecond level which requires lots of pre-processing. By resampling into time-scales of order hours, we were not able to obtain useful information as the smoothing effect combined with the extremely insignificant price changes lead to over 10000 of our 35000 data points being 0 in percentage change in price. We attempted to tackle this problem by normalizing our data points but this would introduce a significant lookahead bias.
+
+
+## Accomplishments that we're proud of
+
+We have used statistical methods to uncover trends within the 
+
+
+## What we learned
+
+## What's next for Price Forecast on unknown security 
