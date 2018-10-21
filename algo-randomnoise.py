@@ -96,3 +96,10 @@ def show_OU():
         plt.plot(ts, ys)
 
     plt.show()
+
+def results():
+
+    df1=pd.read_csv('D:/sample_test_hourly.csv')
+    df2=pd.read_csv('D:/Thomas_output.csv')
+
+explore()

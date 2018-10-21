@@ -1,12 +1,13 @@
-install.packages("sde")
+#install.packages("sde")
 require("sde")
+#install.packages("xts")
 library(xts)
 alldata<-read.csv("D:/resampled_price.csv")
 alldata$time <- strptime(x = as.character(alldata$time),
                                 format = "%Y-%m-%d %H:%M:%S")
 alldata<-na.omit(alldata)
 mid<-(alldata['bid']+alldata['ask'])/2
-sta<-640000
+start<-500000
 mid<-mid[start:699842,]
 df_ts <- ts(data=mid,start=start,end=699842,frequency = 1)
 
@@ -28,13 +29,15 @@ ou.coe
 
 ou.sim <- function(a,b,c,N,startval){
   return(sde.sim(0,1,startval,N,
-                  drift = expression(0.4825411-1*x),
-                  sigma = expression(0.7697182),sigma.x = expression(0)))
+                  drift = expression(1.00000000-0.46957458*x),
+                  sigma = expression(0.01776727),sigma.x = expression(0)))
   }
 
-output<-sde.sim(0,1,2.172,113600,
+output<-matrix(0, 5064, 2000)
+for (i in 1:20){
+walk<-sde.sim(0,1,2.172,101280,
         drift = expression(1-0.46302879*x),
         sigma = expression(0.01214844),sigma.x = expression(0))
-
-output2<-output[seq(2,113601,20)]
-write.csv(output2, file = "D:/Algooutput.csv")
+output[,i]<-walk[seq(2,101281,20)]
+}
+write.csv(output, file = "D:/Algooutput.csv")
