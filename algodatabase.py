@@ -52,9 +52,11 @@ def df2arctic(df,store,arcticcollectionname,ticker,indexname=None,alternatename=
             downloaded=False
     return [downloaded,ticker]
 
-def arctic2df(store,arcticcollectionname,ticker):
+def arctic2df(store,arcticcollectionname,ticker,filename):
     library = store[arcticcollectionname]
     df=library.read(ticker).data
+    if filename!='No':
+        df.to_csv(filename)
     return df
 
 
